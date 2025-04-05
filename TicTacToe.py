@@ -58,7 +58,40 @@ class TicTacToe:
         
         if is_maximizing:
             best_score = float("-inf")
-            for move in 
+            for move in self.available_moves():
+                self.board[move] = self.ai
+
+                score = self.minimax(depth + 1, False)
+                self.board[move] = " "
+                best_score = max(score, best_score)
+            return best_score
+        
+        else:
+            best_score = float("inf")
+            for move in self.available_moves():
+                self.board[move] = self.human
+
+                score = self.minimax(depth + 1, True)
+                self.board[move] = " "
+                best_score = max(score, best_score)
+            return best_score
+        
+
+    def best_move(self):
+        best_score = float("-inf")
+        best_move = None
+
+        for move in self.available_moves():
+            self.board[move] = self.ai
+            score = self.minimax(0, False)
+            self.board[move] = " "
+
+            if score > best_score:
+                best_score = score
+                best_move = move
+            
+        return best_move
+
 
 
 #if __name__ == "__main__":
