@@ -73,7 +73,7 @@ class TicTacToe:
 
                 score = self.minimax(depth + 1, True)
                 self.board[move] = " "
-                best_score = max(score, best_score)
+                best_score = min(score, best_score)
             return best_score
         
 
@@ -91,11 +91,50 @@ class TicTacToe:
                 best_move = move
             
         return best_move
+    
+    def play_game(self):
+        print("Hey, are you ready to lose TicTacToe!!!")
+        print("You are O and the AI is X")
+        print("Find below the marked positions")
+        print("0 | 1 | 2")
+        print("3 | 4 | 5")
+        print("6 | 7 | 8")
+        print("\n")
 
+        import random
 
+        ai_turn = random.choice([True, False])
 
-#if __name__ == "__main__":
-#    game = TicTacToe()
-#    game.make_move(5, "John")
-#    game.print_board()
-#    print(game.available_moves())
+        while not self.game_over():
+            self.print_board()
+
+            if ai_turn:
+                print("\nThinking...")
+                move = self.best_move()
+                self.make_move(move, self.ai)
+            else:
+                while True:
+                    try:
+                        move = int(input("\nYour move: "))
+                        if 0 <= move <= 8 and self.make_move(move, self.human):
+                            break
+                        else:
+                            print("Invalid position")
+                    except ValueError:
+                        print("Enter a number position between 0 and 8!")
+            
+            ai_turn = not ai_turn
+
+        self.print_board()
+        winner = self.check_winner()
+        if winner == self.ai:
+            print("HAHA!!! I win")
+        elif winner == self.human:
+            print("You've succeeded... for now")
+        else:
+            print("Guess its just a tie")
+            
+
+if __name__ == "__main__":
+    game = TicTacToe()
+    game.play_game()
