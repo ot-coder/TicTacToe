@@ -50,11 +50,50 @@ int make_move(Ticcy *game, int position, char player){
     return 0;
 }
 
-int isBoard_full( Ticcy *game){
+int isBoard_Full( Ticcy *game){
     for(int i = 0; i < 9; i++)[
         if(game -> board[i] == ' '){
             return 0;
         }
     ]
     return 1;
+}
+
+char check_winner(Ticcy *game){
+
+    for(int i = 0; i < 9; i +=3){
+        if(game -> board[i] == game -> board[i + 1] &&
+          game -> board[i] == game -> board[i + 2] && 
+          game -> board[i] != ' '){
+            return game -> board[i];
+        }
+    }
+
+    for(int i = 0; i < 3; i++){
+        if(game -> board[i] == game -> board[i + 3] &&
+          game -> board[i] == game -> board[i + 6] && 
+          game -> board[i] != ' '){
+            return game -> board[i];
+        }
+    }
+
+    if(game -> board[0] == game ->board[4]&&
+       game ->board[0] == game ->board[8]){
+        return game ->board[0]
+    }
+
+    if(game -> board[2] == game ->board[4]&&
+       game ->board[0] == game ->board[6]){
+        return game ->board[2]
+    }
+
+    return ' ';
+    
+}
+
+int game_over(Ticcy *game){
+    if(check_winner(game) != ' ' || isBoard_Full(game)){
+        return 1;
+    }
+    return 0;
 }
